@@ -4,7 +4,7 @@ Este es un juego clásico de Ping Pong desarrollado en Python y Raylib, pero con
 
 ## 🚀 Características Principales
 
-* **Gráficos Fluidos:** Corre a 1366x1080p y 90 FPS.
+* **Gráficos Fluidos:** Corre a 1366x768p y 90 FPS.
 * **Modos de Juego:** Juega solo contra la IA o en multijugador local (J1 vs J2).
 * **IA Desafiante:** Múltiples niveles de dificultad, incluyendo un modo "Extremo (Jaque Mate)" casi imbatible.
 * **Habilidad Especial (Boost):** Una mecánica de "Boost" que duplica tu velocidad, gestionada por una barra de estamina.

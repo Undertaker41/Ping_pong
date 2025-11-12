@@ -1,0 +1,11 @@
+[2025-11-10 20:39] JUGADOR 1 GANA (2 a 0) - Modo: J1 vs IA (normal)
+[2025-11-10 20:49] JUGADOR 1 GANA (2 a 1) - Modo: J1 vs IA (facil)
+[2025-11-10 20:57] JUGADOR 1 GANA (2 a 0) - Modo: J1 vs IA (facil)
+[2025-11-10 21:10] JUGADOR 1 GANA (2 a 1) - Modo: J1 vs JUGADOR 2
+[2025-11-11 10:07] JUGADOR 1 GANA (2 a 0) - Modo: J1 vs JUGADOR 2
+[2025-11-11 15:15] IA GANA (1 a 2) - Modo: J1 vs IA (extremo)
+[2025-11-11 15:16] IA GANA (0 a 2) - Modo: J1 vs IA (extremo)
+[2025-11-11 15:24] IA GANA (0 a 2) - Modo: J1 vs IA (extremo)
+[2025-11-11 16:53] IA GANA (0 a 2) - Modo: J1 vs IA (extremo)
+[2025-11-11 19:45] JUGADOR 1 GANA (2 a 0) - Modo: J1 vs JUGADOR 2
+[2025-11-12 14:12] JUGADOR 1 GANA (2 a 0) - Modo: J1 vs IA (facil)
