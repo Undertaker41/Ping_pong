@@ -1,6 +1,6 @@
 """
 fecha: 2025/10/31
-Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas (y Gemini)
+Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas
 -
 descripcion: maneja la interfaz de usuario y la presentacion de los datos
 

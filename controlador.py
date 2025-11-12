@@ -1,6 +1,6 @@
 """
 fecha: 2025/10/31
-Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas (y Gemini)
+Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas
 -
 controlador de lo que hace el programa.
 Con los nuevos cambios, este modulo solo sirve como puente
