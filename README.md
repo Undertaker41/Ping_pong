@@ -26,6 +26,7 @@ Este es un juego clásico de Ping Pong desarrollado en Python y Raylib, pero con
     ```bash
     pip install raylib-py
     ```
+    pip install pygame
 
 3.  **Ejecutar el Juego:**
     Desde la carpeta raíz del proyecto (`ping_pong/`), ejecuta:

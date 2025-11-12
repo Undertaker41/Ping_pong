@@ -7,6 +7,7 @@ descripcion: maneja toda la logica del programa, incluyendo menus
 """
 #========================
 #imports
+import winsound
 try:
     import raylibpy as rl
 except ImportError:
@@ -21,6 +22,7 @@ import os # Necesario para leer el historial
 #========================
 # Constantes Globales
 #========================
+
 SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
 GAME_TITLE = "Juego de Ping Pong"
@@ -103,9 +105,11 @@ def iniciar_aplicacion_raylib():
     """
     
     # Inicializa la ventana
+
     rl.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
-    rl.set_target_fps(90) 
-    
+    # Alias de sistema más robusto
+    winsound.PlaySound("C:/Windows/Media/notify.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+    rl.set_target_fps(90)
     # --- Variables de Estado ---
     estado_actual = ESTADO_MENU_PRINCIPAL
     estado_previo = ESTADO_MENU_PRINCIPAL 
@@ -197,7 +201,7 @@ def iniciar_aplicacion_raylib():
         axis_j1_down = (gamepad_j1_conectado and axis_y_j1 > GAMEPAD_AXIS_DEADZONE and axis_j1_neutral)
         axis_j2_up = (gamepad_j2_conectado and axis_y_j2 < -GAMEPAD_AXIS_DEADZONE and axis_j2_neutral)
         axis_j2_down = (gamepad_j2_conectado and axis_y_j2 > GAMEPAD_AXIS_DEADZONE and axis_j2_neutral)
-
+        
         # Actualizar estado neutral del Eje
         if axis_j1_up or axis_j1_down: axis_j1_neutral = False
         if axis_j2_up or axis_j2_down: axis_j2_neutral = False
@@ -219,22 +223,27 @@ def iniciar_aplicacion_raylib():
         # -----------------------------------------------------
         # --- 1.(INPUTS Y LOGICA) ---
         # -----------------------------------------------------
-        
+
         # --- ESTADO: MENU PRINCIPAL ---
         if estado_actual == ESTADO_MENU_PRINCIPAL:
             opciones_menu = ["Jugar", "Ver Historial", "Salir"]
             
             if menu_abajo: opcion_menu_seleccionada = (opcion_menu_seleccionada + 1) % len(opciones_menu)
             if menu_arriba: opcion_menu_seleccionada = (opcion_menu_seleccionada - 1 + len(opciones_menu)) % len(opciones_menu)
-                
+            
+            
             if menu_aceptar:
+                
                 if opcion_menu_seleccionada == 0: # Jugar
+                    winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME)
                     estado_actual = ESTADO_SELECCION_MODO
                     opcion_menu_seleccionada = 0
                 elif opcion_menu_seleccionada == 1: # Ver Historial
+                    winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME)
                     historial_lineas = leer_historial()
                     estado_actual = ESTADO_HISTORIAL
                 elif opcion_menu_seleccionada == 2: # Salir
+                    winsound.PlaySound("C:/Windows/Media/Alarm02.wav", winsound.SND_FILENAME)
                     break # Rompe el bucle principal
 
         # --- ESTADO: SELECCION DE MODO ---
@@ -245,6 +254,7 @@ def iniciar_aplicacion_raylib():
             if menu_arriba: opcion_menu_seleccionada = (opcion_menu_seleccionada - 1 + len(opciones_menu)) % len(opciones_menu)
 
             if menu_aceptar:
+                winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME)
                 if opcion_menu_seleccionada == 0: # Jugar vs IA
                     modo_juego = "ia"
                     estado_actual = ESTADO_SELECCION_DIFICULTAD
@@ -278,6 +288,7 @@ def iniciar_aplicacion_raylib():
             if menu_arriba: opcion_menu_seleccionada = (opcion_menu_seleccionada - 1 + len(opciones_menu)) % len(opciones_menu)
 
             if menu_aceptar:
+                winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME)
                 if opcion_menu_seleccionada == 0: # Facil
                     dificultad_ia = "facil"
                     velocidad_ia = 4
@@ -336,11 +347,13 @@ def iniciar_aplicacion_raylib():
             
             if menu_aceptar:
                 if opcion_menu_seleccionada == 0: # Continuar
+                    winsound.PlaySound("C:/Windows/Media/Speech On.wav", winsound.SND_FILENAME)
                     estado_actual = ESTADO_JUGANDO
                 elif opcion_menu_seleccionada == 1: # Controles
                     estado_previo = ESTADO_PAUSA # Guardar de donde venimos
                     estado_actual = ESTADO_CONTROLES
                 elif opcion_menu_seleccionada == 2: # Salir al Menu
+                    winsound.PlaySound("C:/Windows/Media/Alarm02.wav", winsound.SND_FILENAME)
                     estado_actual = ESTADO_MENU_PRINCIPAL
                     opcion_menu_seleccionada = 0
 
@@ -380,7 +393,6 @@ def iniciar_aplicacion_raylib():
                 # rl.get_gamepad_button_pressed() devuelve 0 si no hay boton
                 if rl.get_key_pressed() != 0 or rl.get_gamepad_button_pressed() != 0:
                     punto_anotado = False
-                    
                     # Reiniciar tiempo y velocidad DESPUES de cada punto
                     tiempo_partida = 0.0
                     multiplicador_velocidad = 1.0
@@ -392,11 +404,13 @@ def iniciar_aplicacion_raylib():
                         partida_ganada_por_alguien = False
 
                     ball_x, ball_y, ball_speed_x, ball_speed_y = reset_pelota()
+                
                 else:
                     pass
             
             # --- Logica de Pausa (ESC o Start) ---
             elif juego_pausa_btn:
+                winsound.PlaySound("C:/Windows/Media/Speech Sleep.wav", winsound.SND_FILENAME)
                 estado_actual = ESTADO_PAUSA
                 opcion_menu_seleccionada = 0
             
@@ -405,7 +419,7 @@ def iniciar_aplicacion_raylib():
                 
                 delta_tiempo = rl.get_frame_time()
                 tiempo_partida += delta_tiempo
-                
+
                 # --- Aumento de velocidad de la pelota ---
                 tiempo_acumulado += delta_tiempo
                 if tiempo_acumulado >= TIEMPO_AUMENTO_VELOCIDAD:
@@ -424,6 +438,7 @@ def iniciar_aplicacion_raylib():
                 
                 # Usando (RIGHT_FACE) A,B,X,Y
                 boost_j1_teclado = rl.is_key_down(rl.KEY_D)
+                
                 boost_j1_mando = gamepad_j1_conectado and (rl.is_gamepad_button_down(GAMEPAD_J1, rl.GAMEPAD_BUTTON_RIGHT_FACE_DOWN) or # A
                                                             rl.is_gamepad_button_down(GAMEPAD_J1, rl.GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) or # B
                                                             rl.is_gamepad_button_down(GAMEPAD_J1, rl.GAMEPAD_BUTTON_RIGHT_FACE_LEFT) or # X
@@ -464,7 +479,7 @@ def iniciar_aplicacion_raylib():
                 # Limites J1
                 if player1_y < 0: player1_y = 0
                 if player1_y > SCREEN_HEIGHT - paddle_height: player1_y = SCREEN_HEIGHT - paddle_height
-
+                
                 # --- Movimiento del Oponente (IA o Jugador 2) ---
                 paddle_speed_op = paddle_speed_jugador_base
                 paddle_color_op = rl.WHITE
@@ -518,7 +533,7 @@ def iniciar_aplicacion_raylib():
                     if oponente_is_boosting:
                         paddle_speed_op *= BOOST_FACTOR
                         paddle_color_op = rl.YELLOW
-
+                        
                     # --- Movimiento J2 ---
                     # Usando (LEFT_FACE) D-Pad y Eje Y
                     axis_y_j2 = rl.get_gamepad_axis_movement(GAMEPAD_J2, GAMEPAD_AXIS_Y) if gamepad_j2_conectado else 0
@@ -536,12 +551,14 @@ def iniciar_aplicacion_raylib():
 
                 # --- Movimiento de la pelota ---
                 ball_x += ball_speed_x
+                
                 ball_y += ball_speed_y
 
                 # --- FISICA MEJORADA: Rebote en los bordes ---
                 if ball_y - ball_radius <= 0 or ball_y + ball_radius >= SCREEN_HEIGHT:
                     ball_speed_y *= -1
                     ball_speed_y *= random.uniform(1.0, 1.2)
+                    winsound.PlaySound("C:/Windows/Media/Windows Menu Command.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
                 
                 # --- Puntuacion y Colisiones ---
                 
@@ -560,11 +577,16 @@ def iniciar_aplicacion_raylib():
                     
                     if rl.is_key_down(rl.KEY_W): ball_speed_y -= 4
                     if rl.is_key_down(rl.KEY_S): ball_speed_y += 4
+                    # Usar un sonido de sistema sin ruta de archivo, solo con el nombre del alias.
+# Esto asegura que el sonido siempre se encuentre.
+                    # Alias de sistema más robusto
+                    winsound.PlaySound("C:/Windows/Media/Windows Information Bar.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
                 elif (ball_x + ball_radius < 0): # Oponente anota
                     oponente_puntos += 1
                     punto_anotado = True
                     ultimo_anotador = "oponente"
+                    winsound.PlaySound("C:/Windows/Media/Windows Critical Stop.wav", winsound.SND_FILENAME)
                     
                     # --- Resetear Estamina al anotar punto ---
                     player1_stamina, oponente_stamina = MAX_STAMINA, MAX_STAMINA
@@ -594,11 +616,14 @@ def iniciar_aplicacion_raylib():
                     if modo_juego == "multi":
                         if rl.is_key_down(rl.KEY_UP): ball_speed_y -= 4
                         if rl.is_key_down(rl.KEY_DOWN): ball_speed_y += 4
+                    winsound.PlaySound("C:/Windows/Media/Windows Information Bar.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+
 
                 elif (ball_x - ball_radius > SCREEN_WIDTH): # J1 anota
                     player1_puntos += 1
                     punto_anotado = True
                     ultimo_anotador = "j1"
+                    winsound.PlaySound("C:/Windows/Media/Windows Critical Stop.wav", winsound.SND_FILENAME)
 
                     # --- Resetear Estamina al anotar punto ---
                     player1_stamina, oponente_stamina = MAX_STAMINA, MAX_STAMINA
@@ -626,13 +651,15 @@ def iniciar_aplicacion_raylib():
         # --- 2. DIBUJADO (GRAFICOS) ---
         # -----------------------------------------------------
         rl.begin_drawing()
-        rl.clear_background(rl.BLACK)
-        
-        # --- DIBUJAR: ESTADO MENU PRINCIPAL ---
+        rl.clear_background(rl.DARKGREEN)
+        # global fondo # Si 'fondo' se usará globalmente
+        # try:
+        #     fondo = rl.load_texture("sad.jpg")
+        # except Exception as e:
+        #     # Manejar error si la imagen no existe
+        #     fondo = rl.Texture2D(0, 0, 0, 0, 0)
         if estado_actual == ESTADO_MENU_PRINCIPAL:
             opciones_menu = ["Jugar", "Ver Historial", "Salir"]
-            rl.draw_text("PING PONG", SCREEN_WIDTH // 2 - (rl.measure_text("PING PONG", 40) // 2), SCREEN_HEIGHT // 2 - 100, 40, rl.WHITE)
-            
             for i, opcion in enumerate(opciones_menu):
                 color = rl.YELLOW if i == opcion_menu_seleccionada else rl.WHITE
                 rl.draw_text(opcion, SCREEN_WIDTH // 2 - (rl.measure_text(opcion, 30) // 2), SCREEN_HEIGHT // 2 + i * 40, 30, color)
@@ -644,6 +671,7 @@ def iniciar_aplicacion_raylib():
         # --- DIBUJAR: ESTADO SELECCION MODO ---
         elif estado_actual == ESTADO_SELECCION_MODO:
             opciones_menu = ["Jugador vs IA", "Jugador 1 vs Jugador 2", "Volver"]
+            
             rl.draw_text("Modo de Juego", SCREEN_WIDTH // 2 - (rl.measure_text("Modo de Juego", 40) // 2), SCREEN_HEIGHT // 2 - 100, 40, rl.WHITE)
             
             for i, opcion in enumerate(opciones_menu):

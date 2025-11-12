@@ -10,6 +10,7 @@ para iniciar la aplicacion grafica de Raylib.
 #import
 # Conecta este modulo con el modulo modelo
 import modelo
+import winsound
 
 def mostrar_tui():
     """
@@ -20,3 +21,4 @@ def mostrar_tui():
     # Llama a la funcion principal en el modelo que ahora
     # maneja todo (menus y juego)
     modelo.iniciar_aplicacion_raylib()
+    # winsound.PlaySound("C:/Windows/Media/Barra de informacion de Windows.wav", winsound.SND_FILENAME)
