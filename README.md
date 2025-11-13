@@ -1,6 +1,6 @@
 # Proyecto: Ping Pong Avanzado (v0.96 Funcional)
 
-Este es un juego clasico de Ping Pong desarrollado en Python y Raylib, pero con mecanicas modernas, una IA desafiante, y soporte completo para multijugador local y mandos de Xbox.
+Este es un juego clasico de Ping Pong desarrollado en Python y Raylib, una IA desafiante, y soporte completo para multijugador local y mandos de Xbox.
 
 ## 🚀 Caracteristicas Principales
 

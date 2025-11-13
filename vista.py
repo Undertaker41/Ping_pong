@@ -16,12 +16,8 @@ except ImportError:
     print("Por favor, instálela usando: pip install raylib-py")
     exit()
 
-try:
-    import winsound
-    _WINSOUND_DISPONIBLE = True
-except ImportError:
-    print("Advertencia: 'winsound' no disponible en este SO. No habra efectos de sonido.")
-    _WINSOUND_DISPONIBLE = False
+# Se elimino la importacion de 'winsound' para compatibilidad con Linux.
+_WINSOUND_DISPONIBLE = False
 
 import modelo # Para las constantes y leer el estado
 
@@ -59,9 +55,7 @@ def inicializar_vista():
     except Exception as e:
         print(f"Advertencia: No se pudo cargar 'icon.png'. Error: {e}")
 
-    # El sonido de inicio esta ligado a la creacion de la ventana
-    if _WINSOUND_DISPONIBLE:
-        winsound.PlaySound("C:/Windows/Media/notify.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
+    # Se elimino el sonido de inicio (winsound)
         
     rl.set_target_fps(90)
     rl.set_exit_key(0) # El cierre se maneja en el bucle principal

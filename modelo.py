@@ -6,16 +6,10 @@ Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas
 descripcion: Componente "Modelo" (MVC) - Version Funcional.
 Contiene todas las constantes, el estado del juego (en un diccionario) y 
 la logica pura del juego (fisicas, IA, estamina).
-NO CONTIENE CODIGO DE RAYLIB (excepto 'winsound' para feedback).
+NO CONTIENE CODIGO DE RAYLIB.
 NO USA CLASES (POO).
 """
-try:
-    import winsound
-    _WINSOUND_DISPONIBLE = True
-except ImportError:
-    print("Advertencia: 'winsound' no disponible en este SO. No habra efectos de sonido.")
-    # Creamos un flag para no intentar usar la biblioteca
-    _WINSOUND_DISPONIBLE = False
+# Se elimino la importacion de 'winsound' para compatibilidad con Linux.
     
 import random
 import datetime
@@ -321,20 +315,14 @@ def _actualizar_menu_principal(estado, entradas):
     
     if entradas['menu_aceptar']:
         if estado['opcion_menu_seleccionada'] == 0: # Jugar
-            if _WINSOUND_DISPONIBLE:
-                winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
             estado['estado_actual'] = ESTADO_SELECCION_MODO
             estado['opcion_menu_seleccionada'] = 0
             
         elif estado['opcion_menu_seleccionada'] == 1: # Ver Historial
-            if _WINSOUND_DISPONIBLE:
-                winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
             estado['historial_lineas'] = _leer_historial() # Llama a la funcion
             estado['estado_actual'] = ESTADO_HISTORIAL
         
         elif estado['opcion_menu_seleccionada'] == 2: # Salir
-            if _WINSOUND_DISPONIBLE:
-                winsound.PlaySound("C:/Windows/Media/Alarm02.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
             estado['debe_cerrar'] = True # Cambiamos el flag
             
     return estado
@@ -348,9 +336,6 @@ def _actualizar_seleccion_modo(estado, entradas):
         estado['opcion_menu_seleccionada'] = (estado['opcion_menu_seleccionada'] - 1 + len(opciones_menu)) % len(opciones_menu)
     
     if entradas['menu_aceptar']:
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
-        
         if estado['opcion_menu_seleccionada'] == 0: # Jugar vs IA
             estado['modo_juego'] = "ia"
             estado['estado_actual'] = ESTADO_SELECCION_DIFICULTAD
@@ -378,9 +363,6 @@ def _actualizar_seleccion_dificultad(estado, entradas):
         estado['opcion_menu_seleccionada'] = (estado['opcion_menu_seleccionada'] - 1 + len(opciones_menu)) % len(opciones_menu)
     
     if entradas['menu_aceptar']:
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Speech Disambiguation.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
-        
         if estado['opcion_menu_seleccionada'] == 0: 
             estado['dificultad_ia'], estado['velocidad_ia'] = "facil", 4
         elif estado['opcion_menu_seleccionada'] == 1: 
@@ -415,15 +397,11 @@ def _actualizar_pausa(estado, entradas):
     
     if entradas['menu_aceptar']:
         if estado['opcion_menu_seleccionada'] == 0: # Continuar
-            if _WINSOUND_DISPONIBLE:
-                winsound.PlaySound("C:/Windows/Media/Speech On.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
             estado['estado_actual'] = ESTADO_JUGANDO
         elif estado['opcion_menu_seleccionada'] == 1: # Controles
             estado['estado_previo'] = ESTADO_PAUSA
             estado['estado_actual'] = ESTADO_CONTROLES
         elif estado['opcion_menu_seleccionada'] == 2: # Salir al Menu
-            if _WINSOUND_DISPONIBLE:
-                winsound.PlaySound("C:/Windows/Media/Alarm02.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
             estado['estado_actual'] = ESTADO_MENU_PRINCIPAL
             estado['opcion_menu_seleccionada'] = 0
             
@@ -455,8 +433,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
 
     # --- Logica de Pausa (ESC o Start) ---
     elif entradas['pausa']:
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Speech Sleep.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
         estado['estado_actual'] = ESTADO_PAUSA
         estado['opcion_menu_seleccionada'] = 0
         return estado
@@ -480,8 +456,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
        estado['ball_y'] + estado['ball_radius'] >= SCREEN_HEIGHT:
         estado['ball_speed_y'] *= -1
         estado['ball_speed_y'] *= random.uniform(1.0, 1.2)
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Windows Menu Command.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     estado['player1_is_moving'] = False
     estado['oponente_is_moving'] = False
@@ -700,9 +674,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
             estado['ball_speed_x'] *= -1
             hit_position = (estado['ball_y'] - estado['player1_y']) / estado['paddle_height']
             estado['ball_speed_y'] = 8 * (hit_position - 0.5)
-        
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Windows Information Bar.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
     # --- J2/Oponente Colision ---
     elif (estado['ball_x'] + estado['ball_radius'] >= SCREEN_WIDTH - estado['paddle_width'] and 
@@ -719,9 +690,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
             estado['ball_speed_x'] *= -1
             hit_position = (estado['ball_y'] - estado['oponente_y']) / estado['paddle_height']
             estado['ball_speed_y'] = 8 * (hit_position - 0.5)
-        
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Windows Information Bar.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 
     # --- 6. Logica de Puntuacion ---
@@ -731,8 +699,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
         estado['oponente_puntos'] += 1
         estado['punto_anotado'] = True
         estado['ultimo_anotador'] = "oponente"
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Windows Critical Stop.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
         
         estado['player1_stamina'], estado['oponente_stamina'] = MAX_STAMINA, MAX_STAMINA
         estado['player1_stamina_cooldown'], estado['oponente_stamina_cooldown'] = 0.0, 0.0
@@ -750,8 +716,6 @@ def _actualizar_juego(estado, entradas, delta_tiempo):
         estado['player1_puntos'] += 1
         estado['punto_anotado'] = True
         estado['ultimo_anotador'] = "j1"
-        if _WINSOUND_DISPONIBLE:
-            winsound.PlaySound("C:/Windows/Media/Windows Critical Stop.wav", winsound.SND_FILENAME | winsound.SND_ASYNC)
 
         estado['player1_stamina'], estado['oponente_stamina'] = MAX_STAMINA, MAX_STAMINA
         estado['player1_stamina_cooldown'], estado['oponente_stamina_cooldown'] = 0.0, 0.0
