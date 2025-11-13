@@ -8,20 +8,20 @@ Este documento detalla la evolucion y las fases de desarrollo del juego de Ping 
     * J1: Tecla `D`.
     * J2: Tecla `Flecha Izquierda`.
 * **Efecto:** La velocidad de la paleta aumenta **x1.5**.
-* **Visual:** La paleta de J1 se vuelve **Verde** y la de J2 **Roja**.
+* **Visual:** La paleta de J1 se vuelve **Celeste** y la de J2 **Amarilla**.
 * **Estamina (v1):**
     * Duracion: 3 segundos.
     * Cooldown (Penalizacion): 3.5 segundos.
     * Regeneracion: 1 a 1 si no se agota.
-* **Especificaciones:** Se actualiza la resolucion a **1366x768** y los FPS a **90**.
+* **Especificaciones:** Se actualiza la resolucion a **1366x1080** y los FPS a **90**.
 
 ## Fase 2: Soporte de Mando y Ajustes de UI
 
 * **UI (Estamina):**
     * Se reduce el tamaño de las barras de estamina.
-    * El color de la barra (cuando esta disponible) se cambia de verde a los colores respectivos del jugador (Celeste y Amarillo).
+    * El color de la barra (cuando está disponible) se cambia de verde a los colores respectivos del jugador (Celeste y Amarillo).
 * **Menus:**
-    * Se añade una nueva pantalla de "Controles" accesible desde el menu de pausa.
+    * Se añade una nueva pantalla de "Controles" accesible desde el menú de pausa.
 * **Controles (Gamepad):**
     * Se implementa la deteccion de mandos de Xbox (J1 y J2).
     * Se añade soporte para movimiento (Joystick Izquierdo y Cruceta) y Boost (botones A, B, X, Y).
@@ -91,3 +91,12 @@ Este documento detalla la evolucion y las fases de desarrollo del juego de Ping 
 
 * **Feature (Visual):** Se añade una "estela" (paddle trail) a las paletas de los jugadores y de la IA cuando activan cualquier modo de boost (Normal o Super Boost), similar a la estela de la pelota.
 * **UI:** Se actualiza la version a **v0.91**.
+
+## Fase 11: Refactor a Modelo-Vista-Controlador (v0.95)
+
+* **Refactor (Arquitectura):** El proyecto entero se re-escribe para seguir un patron de diseño **Modelo-Vista-Controlador (MVC)**.
+    * **`main.py`:** Se convierte en el punto de entrada que inicializa los componentes y corre el bucle principal.
+    * **`modelo.py`:** Ahora solo contiene el estado (`GameState`) y la logica pura del juego. No tiene codigo de Raylib para inputs o dibujado.
+    * **`vista.py`:** Nuevo archivo que maneja toda la inicializacion de la ventana y el dibujado (todas las llamadas a `rl.draw_...`).
+    * **`controlador.py`:** Nuevo archivo que maneja toda la logica de inputs (teclado y gamepad) y los traduce para el modelo.
+* **UI:** Se actualiza la version a **v0.95**.
