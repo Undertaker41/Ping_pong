@@ -100,3 +100,7 @@ Este documento detalla la evolucion y las fases de desarrollo del juego de Ping 
     * **`vista.py`:** Nuevo archivo que maneja toda la inicializacion de la ventana y el dibujado (todas las llamadas a `rl.draw_...`).
     * **`controlador.py`:** Nuevo archivo que maneja toda la logica de inputs (teclado y gamepad) y los traduce para el modelo.
 * **UI:** Se actualiza la version a **v0.95**.
+
+Fase 12 v0.96
+
+se realizaron cambios para que fuera programación funcional

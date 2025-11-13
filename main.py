@@ -1,10 +1,11 @@
+# main.py (Version Funcional)
 """
 fecha: 2025/10/31
 Autor: Alejandro Uzcategui, Gabriel Guedez, Hector Vargas
 -
-descripcion: Archivo principal de ejecucion.
-Inicia el Modelo, la Vista y el Controlador (MVC) y corre el bucle
-principal del juego.
+descripcion: Archivo principal de ejecucion (Version Funcional).
+Inicia el Modelo, la Vista y el Controlador y corre el bucle
+principal del juego. No usa Clases.
 """
 try:
     import raylibpy as rl
@@ -13,6 +14,7 @@ except ImportError:
     print("Por favor, instálela usando: pip install raylib-py")
     exit()
 
+# Importamos los modulos que ahora contienen solo funciones
 import modelo
 import vista
 import controlador
@@ -23,33 +25,40 @@ def main():
     """
     
     # 1. Inicializar los componentes
-    estado_juego = modelo.GameState()
-    vista_juego = vista.Vista()
-    controlador_juego = controlador.Controlador()
+    
+    # Creamos el diccionario que contendra TODO el estado del juego
+    estado_juego = modelo.crear_estado_inicial()
+    
+    # Inicializamos la ventana de Raylib y los colores de la vista
+    vista.inicializar_vista()
+    
+    # El controlador ya no necesita ser inicializado, es solo un modulo de funciones.
 
     # 2. Bucle principal del juego
     
-    # Anadimos la comprobacion del flag 'debe_cerrar' del modelo
-    while not rl.window_should_close() and not estado_juego.debe_cerrar:
+    # El bucle ahora comprueba el flag 'debe_cerrar' DENTRO del diccionario de estado
+    while not rl.window_should_close() and not estado_juego['debe_cerrar']:
    
-        
         # 3. Obtener el tiempo delta
         delta_tiempo = rl.get_frame_time()
         
         # 4. Procesar Entradas (Controlador)
-        # El controlador lee los inputs y devuelve un objeto 'Entradas'
-        entradas = controlador_juego.procesar_entradas()
+        # El controlador lee los inputs y retorna un objeto 'Entradas' (un diccionario)
+        # Tambien puede modificar el 'estado_juego' (ej. para el 'axis_neutral')
+        entradas = controlador.procesar_entradas(estado_juego)
         
         # 5. Actualizar Estado (Modelo)
-        # El modelo actualiza su estado interno basado en las entradas
-        estado_juego.actualizar_estado(entradas, delta_tiempo)
+        # ESTA ES LA CLAVE DEL ENFOQUE FUNCIONAL:
+        # La funcion de logica toma el estado actual y las entradas...
+        # ...y retorna un NUEVO estado actualizado.
+        estado_juego = modelo.actualizar_estado(estado_juego, entradas, delta_tiempo)
         
         # 6. Dibujar (Vista)
-        # La vista dibuja la pantalla basandose en el estado actual del modelo
-        vista_juego.dibujar(estado_juego)
+        # La vista toma el estado actualizado y dibuja la pantalla.
+        vista.dibujar(estado_juego)
 
     # 7. Limpiar al salir
-    vista_juego.cerrar()
+    vista.cerrar_vista()
     
     
     print("\n¡Gracias por jugar!\n")
